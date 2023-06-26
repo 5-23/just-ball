@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="ball" draggable="true"></div>
+</body>
+</html>
+
+<script>
+    const mousePosText = document.body;
+    let mouse = { x: undefined, y: undefined };
+
+    window.addEventListener('mousemove', (event) => {
+        mouse = { x: event.clientX, y: event.clientY };
+    });
+
+    let ball = document.getElementById("ball");
+    on = false
+    x = 50;
+    y = 50;
+    move_x= 50;
+    move_y = 50;
+    ball.addEventListener("dragstart", (e) => {
+        e.preventDefault();
+        move_x = mouse.x
+        move_y = mouse.y;
+    })
+
+    animation = () => {
+        a = 2; // 가속도
+        s = 100; //size
+
+        x += (move_x*a - x)/10;
+        y += (move_y*a - y)/10;
+        
+        if (x+s > window.innerWidth){
+            move_x = move_x - window.innerWidth/a/1.5;
+        }
+        if (x < 0){
+            move_x = move_x + window.innerWidth/a/1.5;
+        }
+        
+        if (y+s > window.innerHeight){
+            move_y = move_y - window.innerHeight/a/1.5;
+        }
+        if (y < 0){
+            move_y = move_y + window.innerHeight/a/1.5;
+        }
+
+        ball.style.top = `${y}px`;
+        ball.style.left = `${x}px`;
+        requestAnimationFrame(animation);
+    }
+
+    animation();
+</script>
